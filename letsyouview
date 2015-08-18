@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#start LetsYouView
+echo 'starting imgview'
+inspath=~/.local/share/letsyouview/
+
+echo 'var curdir = "'$(dirname "${1}")'/";' > $inspath/resources/default_app/vars.js;
+echo 'var curimg = "'$(basename "${1}")'";' >> $inspath/resources/default_app/vars.js;
+
+exec $inspath'electron'
