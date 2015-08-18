@@ -1,1 +1,1 @@
-Here sits the app folder
+Here sits the app folder and atom file.
