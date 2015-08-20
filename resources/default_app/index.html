@@ -5,10 +5,10 @@
         <link rel="icon" href="f.png" type="image/png">
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        
         <script src="bpgdec.js"></script>
         <script src="vars.js"></script>
         <script src="getimglist.js"></script>
+        <script src="imgman.js"></script>
     </head>
     <body>        
         <div id="links">
@@ -18,20 +18,31 @@
         	<a href="javascript:void(0)" onclick="zout();">&minus;</a>
         	<a href="javascript:void(0)" onclick="one();">1:1</a>
         	<a href="javascript:void(0)" onclick="fit();">&square;</a>
-          <p id="imgname" style="float:right;margin-right:20px;margin-top:5px">iname</p>
-        	<br>
-        	<p id="debug"></p>
+          <a href="javascript:void(0)" onclick="rcw();">///<br></a>
+          <a href="javascript:void(0)" onclick="rcc();">\\\</a>
+          <p id="imgname">iname</p>        	
         </div>
+        <p id="debug"></p>
         <div id="wrap">
-          <img id="leimg" src="" onload="imginit();">
+          <img id="leimg" src="" onload="imginit();"
+            onmousedown="drags(event);"
+            onmousemove="drag(event);"
+            onmouseup="drage(event);"
+            ondrag="return false";
+            ondragstart="return false;"
+            ondrop="return false;"
+            onmousewheel="wheelin(event);">
         </div>
     </body>
-    <script>
+    <script>        
+        ///// MY STUFF
         var leimg=document.getElementById('leimg');
         var debug=document.getElementById('debug');
         var iname=document.getElementById('imgname');
         var curw=100;
+        var prevx;var prevy;var isdown;
         leimg.src = curdir+imgs[index];
+        //leimg.addEventListener('drag',drag,false);
         var width = leimg.width;
         var height = leimg.height;
         //debug.innerHTML='pl';
@@ -42,7 +53,7 @@
             height = leimg.height;
             //console.log('image dimensions:'+width+' '+height);
             if (width > height) {
-              leimg.style.width = window.innerWidth+'px';leimg.style.height = '';
+              leimg.style.width = (window.innerWidth-30)+'px';leimg.style.height = '';
               curw=window.innerWidth;
             }
             else {
@@ -92,8 +103,34 @@
             //debug.innerHTML='index='+index;
             iname.innerHTML=leimg.src.replace(/^.*[\\\/]/, '');
             reloadbpg();
+        }      
+        function rcw(){
+          
         }
-                
+        function rcc(){
+          
+        }
+        function wheelin(e) {
+          //debug.innerHTML='wheel='+e.wheelDelta;
+          curw = curw+e.wheelDelta;
+          if (width > height) { leimg.style.width = curw+'px'; }
+            else { leimg.style.height = curw+'px';}
+        }
+        function drags(e){
+          //debug.innerHTML='mx='+e.clientX;
+          prevx=e.clientX;prevy=e.clientY;
+          isdown=true;
+        }
+        function drag(e){
+          //debug.innerHTML='prevx='+prevx+'<br>'+'prevy='+prevy+'<br>'+'clX='+e.clientX;
+          if (isdown == true){window.scrollBy(prevx-e.clientX, prevy-e.clientY);
+          prevx=e.clientX;prevy=e.clientY;}
+        }
+        function drage(e){
+          //debug.innerHTML='mx='+e.clientX;
+          //window.scrollBy(prevx-e.clientX, prevy-e.clientY);
+          isdown=false;
+        }
         ////////// bpg
         function reloadbpg() {
             var a,d,c,e,f,g,j;e=document.images;d=e.length;f=[];for(a=0;a<d;a++)c=e[a],g=c.src,".bpg"==g.substr(-4,4).toLowerCase()&&(f[f.length]=c);d=f.length;for(a=0;a<d;a++){c=f[a];g=c.src;e=document.createElement("canvas");c.id&&(e.id=c.id);c.className&&(e.className=c.className);if(j=c.getAttribute("width")|0)e.style.width=j+"px";if(j=c.getAttribute("height")|0)e.style.height=j+"px";c.parentNode.replaceChild(e,c);j=e.getContext("2d");c=new BPGDecoder(j);c.onload=function(a,c){function d(){var a=
@@ -114,10 +151,14 @@
         }
     </script>
     <style>
+        ::-webkit-scrollbar { display: none; }
         body {height:100%;margin:0;font-family:'sans';}
-        a {text-decoration:none;color:#111;font-size:20px;margin-right:10px}
-        #leimg {margin-top:30px;display:inline-block}
+        a {text-decoration:none;color:#111;font-size:20px;}
+        #leimg {margin-right:30px;display:inline-block;}
         #wrap {height:100%;text-align:center;}
-        #links {position:fixed;height:30px;background:#fff;width:100%;padding-top:4px;padding-left:4px"}
+        #links {position:fixed;width:30px;background:#fff;height:100%;padding-right:4px;padding-top:4px;
+          right:0;text-align:center; }
+        #imgname {float:left;font-size:9px;word-wrap:break-word;width:100%}
+        #debug {background:none;position:fixed}
     </style>
 </html>
