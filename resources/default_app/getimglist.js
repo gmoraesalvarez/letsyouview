@@ -4,13 +4,14 @@ len = temp.length;
 //console.log(curimg);
 for (f in temp){
   //console.log('file:'+temp[f]);
-  if (temp[f].substr(-4,4)=='.jpg' ||
-    temp[f].substr(-4,4)=='.png' ||
-    temp[f].substr(-4,4)=='.bpg' ||
-    temp[f].substr(-5,5)=='.webp'|| 
-    temp[f].substr(-4,4)=='.gif' ||
-    temp[f].substr(-4,4)=='.svg' ||
-    temp[f].substr(-4,4)=='.bmp' ) {
+  if (temp[f].substr(-4,4).toLowerCase()=='.jpg' ||
+    temp[f].substr(-4,4).toLowerCase()=='.png' ||
+    temp[f].substr(-4,4).toLowerCase()=='.bpg' ||
+    temp[f].substr(-5,5).toLowerCase()=='.webp'|| 
+    temp[f].substr(-4,4).toLowerCase()=='.gif' ||
+    temp[f].substr(-4,4).toLowerCase()=='.svg' ||
+    //temp[f].substr(-4,4)=='.tif' ||
+    temp[f].substr(-4,4).toLowerCase()=='.bmp' ) {
       imgs.push(temp[f]);
       //console.log('added:'+temp[f]);
       if (curimg == temp[f]){
